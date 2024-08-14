@@ -36,22 +36,53 @@ public class ContactService {
 			contactDTO.setSecondaryContactIds(new int[0]);
 			
 		} 
+		if(!existingContactByPhone.isEmpty()&&!existingContactByEmail.isEmpty()) {
+			System.out.println("Making primary as secondary entry ");
+			System.out.println("Phone exists at Id ="+existingContactByPhone.get(0).getId()+" size of list ="+existingContactByPhone.size());
+			System.out.println("Email exists at Id = "+existingContactByEmail.get(0).getId()+" size of list ="+existingContactByEmail.size());
+			
+			ContactEntity contactToBeUpdated=existingContactByPhone.get(0);
+			contactToBeUpdated.setUpdatedAt(LocalDateTime.now());
+			contactToBeUpdated.setLinkPrecedence("secondary");
+			contactToBeUpdated.setLinkedId(existingContactByEmail.get(0).getId());
+			contactRepository.save(contactToBeUpdated);
+			
+			existingContactByEmail.addAll(existingContactByPhone);
+			List<String> allEmails = existingContactByEmail.stream()
+				    .map(eachContact -> eachContact.getEmail())
+				    .distinct()
+				    .collect(Collectors.toList());
+			List<String> allPhoneNumbers = existingContactByEmail.stream()
+				    .map(eachContact -> String.valueOf(eachContact.getPhoneNumber()))
+				    .distinct()
+				    .collect(Collectors.toList());
+			
+			contactDTO.setEmails(allEmails.toArray());
+			contactDTO.setPhoneNumbers(allPhoneNumbers.toArray());
+			contactDTO.setPrimaryContactId(contactToBeUpdated.getLinkedId());
+			contactDTO.setSecondaryContactIds(new int[] {contactToBeUpdated.getId()});	
+			
+		}
 		else { 
 			contactToBeInserted.setLinkPrecedence("secondary");
 			System.out.println("For secondary entry ");
-			System.out.println("Phone exists "+existingContactByPhone.toString());
-			System.out.println("Email exists "+existingContactByEmail.toString());
-			// Decided if both present, to assume phoneNo one as primary
-			if(existingContactByPhone.isEmpty()) {
+			System.out.println("Phone size of list ="+existingContactByPhone.size());
+			System.out.println("Email size of list ="+existingContactByEmail.size());
+			
+			// Decided if both present, make one as secondary & update is needed, NOT new ENTRY
+			 if(existingContactByPhone.isEmpty()) {
 				contactToBeInserted.setLinkedId(existingContactByEmail.get(0).getId());
 				
 				List<String> allEmails = existingContactByEmail.stream()
 					    .map(eachContact -> eachContact.getEmail())
+					    .distinct()
 					    .collect(Collectors.toList());
 				allEmails.add(contact.getEmail());
 				contactDTO.setEmails(allEmails.toArray());
+				
 				List<String> allPhoneNumbers = existingContactByEmail.stream()
 					    .map(eachContact -> String.valueOf(eachContact.getPhoneNumber()))
+					    .distinct()
 					    .collect(Collectors.toList());
 				allPhoneNumbers.add(String.valueOf(contact.getPhoneNumber()));
 				contactDTO.setPhoneNumbers(allPhoneNumbers.toArray());	
@@ -61,11 +92,14 @@ public class ContactService {
 				
 				List<String> allPhoneNumbers = existingContactByPhone.stream()
 					    .map(eachContact -> String.valueOf(eachContact.getPhoneNumber()))
+					    .distinct()
 					    .collect(Collectors.toList());
 				allPhoneNumbers.add(String.valueOf(contact.getPhoneNumber()));
 				contactDTO.setPhoneNumbers(allPhoneNumbers.toArray());
+				
 				List<String> allEmails = existingContactByPhone.stream()
 					    .map(eachContact -> eachContact.getEmail())
+					    .distinct()
 					    .collect(Collectors.toList());
 				allEmails.add(contact.getEmail());
 				contactDTO.setEmails(allEmails.toArray());
