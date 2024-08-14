@@ -1,4 +1,4 @@
-package com.bitespeedapplication;
+package com.bitespeedapplication.restservice;
 
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;

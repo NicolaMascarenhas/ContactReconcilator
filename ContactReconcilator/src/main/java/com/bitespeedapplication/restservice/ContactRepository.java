@@ -1,4 +1,4 @@
-package com.bitespeedapplication;
+package com.bitespeedapplication.restservice;
 
 import java.util.List;
 

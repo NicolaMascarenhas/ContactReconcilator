@@ -1,4 +1,4 @@
-package com.bitespeedapplication;
+package com.bitespeedapplication.restservice;
 
 public class ContactRequest {
 	String email;
