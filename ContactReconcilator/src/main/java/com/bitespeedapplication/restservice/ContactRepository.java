@@ -12,6 +12,6 @@ public interface ContactRepository extends JpaRepository<ContactEntity, String>{
 	@Query(value = "select * from public.contact where phone_number=:phoneNumber",nativeQuery = true) 
 	List<ContactEntity> findByPhoneNumber(double phoneNumber);
 
-	@Query(value = "select * from contact where email like :email",nativeQuery = true)
+	@Query(value = "select * from public.contact where email like :email",nativeQuery = true)
 	List<ContactEntity> findByEmail(String email);
 }
