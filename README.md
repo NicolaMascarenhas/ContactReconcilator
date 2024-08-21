@@ -11,7 +11,8 @@ Response is a json which returns primaryContactId, all associated emails (primar
 
 
 ## Hosting 
-The application is hosted on Render using a separte PostgresSQL instance & Docker containerized Spring Boot instance (https://contactreconcilatorapp-latest.onrender.com).
+The application is hosted on Render - https://contactreconcilatorapp-latest.onrender.com
+Using a separte PostgresSQL instance & Docker containerized Spring Boot instance (Docker image - nicolam941/contactreconcilatorapp:latest)
 
 ## Example using Endpoint
 URL: https://contactreconcilatorapp-latest.onrender.com/identify
