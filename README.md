@@ -1,5 +1,4 @@
-# ContactReconcilator
-
+# Contact Reconcilator
 
 Contact Reconcilator is used to link different orders made with different contact information to the same person, when receiving new orders. 
 
@@ -11,10 +10,10 @@ A primary customer can also turn into secondary, if later an order links the pho
 Response is a json which returns primaryContactId, all associated emails (primary & secondary contacts), associted phone numbers as well as the linked secondary contact ids. 
 
 
-##Hosting 
-The application is hosted on Render using a separte PostgresSQL instance & contanizered Spring Boot instance (https://contactreconcilatorapp-latest.onrender.com).
+## Hosting 
+The application is hosted on Render using a separte PostgresSQL instance & Docker containerized Spring Boot instance (https://contactreconcilatorapp-latest.onrender.com).
 
-## Eaxample using Endpoint
+## Example using Endpoint
 URL: https://contactreconcilatorapp-latest.onrender.com/identify
 Payload: 
 {
